@@ -28,7 +28,7 @@ app.use((req, res, next) => {
   // https://developer.mozilla.org/en-US/docs/Glossary/preflight_request
   res.header(
     "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    "Origin, X-Requested-With, Content-Type, Accept"
   );
   next();
 
