@@ -39,8 +39,25 @@ router.route("/new_period").post(tokenChecker, async (req, res) => {
     });
 
     await newPeriod.save();
+    const period = await Period.find();
 
-    res.status(200).json({ newPeriod });
+    period.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    res.status(200).json({ period });
+  } catch (error) {
+    // console.log(error);
+  }
+});
+
+router.route("/period/:id").delete(tokenChecker, async (req, res) => {
+  const id = req.params.id;
+  try {
+    await Period.findByIdAndDelete(id);
+    const period = await Period.find();
+
+    period.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    res.status(200).json({ period });
   } catch (error) {
     // console.log(error);
   }
