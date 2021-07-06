@@ -49,19 +49,40 @@ router.route("/new_period").post(tokenChecker, async (req, res) => {
   }
 });
 
-router.route("/period/:id").delete(tokenChecker, async (req, res) => {
-  const id = req.params.id;
-  try {
-    await Period.findByIdAndDelete(id);
-    const period = await Period.find();
+router
+  .route("/period/:id")
+  .delete(tokenChecker, async (req, res) => {
+    const id = req.params.id;
+    try {
+      await Period.findByIdAndDelete(id);
+      const period = await Period.find();
 
-    period.sort((a, b) => new Date(b.date) - new Date(a.date));
+      period.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-    res.status(200).json({ period });
-  } catch (error) {
-    // console.log(error);
-  }
-});
+      res.status(200).json({ period });
+    } catch (error) {
+      // console.log(error);
+    }
+  })
+  .patch(tokenChecker, async (req, res) => {
+    const id = req.params.id;
+    try {
+      await Period.findByIdAndUpdate(id, {
+        date: req.body.date,
+        hot: req.body.hot,
+        cold: req.body.cold,
+        drainage: Number(req.body.hot) + Number(req.body.cold),
+        electricity: req.body.electricity,
+      });
+      const period = await Period.find();
+
+      period.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      res.status(200).json({ period });
+    } catch (error) {
+      res.status(400);
+    }
+  });
 
 export default router;
 
