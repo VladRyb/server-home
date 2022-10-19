@@ -6,7 +6,7 @@ import Price from "../models/price.js";
 const saltRounds = 10;
 const router = Router();
 
-router.route("/data").get(tokenChecker, async (req, res) => {
+router.route("/data").get(tokenChecker, async (req, res, next) => {
   try {
     const price = await Price.findOne();
     const period = await Period.find();
@@ -15,11 +15,11 @@ router.route("/data").get(tokenChecker, async (req, res) => {
 
     res.status(200).json({ price, period });
   } catch (error) {
-    // console.log(error);
+    next(error);
   }
 });
 
-router.route("/new_period").post(tokenChecker, async (req, res) => {
+router.route("/new_period").post(tokenChecker, async (req, res, next) => {
   try {
     if (
       req.body.date.trim() === "" &&
@@ -45,13 +45,13 @@ router.route("/new_period").post(tokenChecker, async (req, res) => {
 
     res.status(200).json({ period });
   } catch (error) {
-    // console.log(error);
+    next(error);
   }
 });
 
 router
   .route("/period/:id")
-  .delete(tokenChecker, async (req, res) => {
+  .delete(tokenChecker, async (req, res, next) => {
     const id = req.params.id;
     try {
       await Period.findByIdAndDelete(id);
@@ -61,10 +61,10 @@ router
 
       res.status(200).json({ period });
     } catch (error) {
-      // console.log(error);
+      next(error);
     }
   })
-  .patch(tokenChecker, async (req, res) => {
+  .patch(tokenChecker, async (req, res, next) => {
     const id = req.params.id;
     try {
       await Period.findByIdAndUpdate(id, {
@@ -85,10 +85,3 @@ router
   });
 
 export default router;
-
-//    "rent": "28000",
-// "hot": "205.15",
-// "cold": "42.3",
-// "drainage": "30.9",
-// "electricity": "4.87",
-// "internet": "600"

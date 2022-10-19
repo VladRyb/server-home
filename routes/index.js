@@ -9,7 +9,7 @@ dotenv.config();
 const saltRounds = 10;
 const router = Router();
 
-router.route("/signup").post(async (req, res) => {
+router.route("/signup").post(async (req, res, next) => {
   try {
     const { username, password } = req.body;
 
@@ -30,11 +30,11 @@ router.route("/signup").post(async (req, res) => {
 
     res.status(200).json({ token: jwtToken });
   } catch (error) {
-    // console.log(error);
+    next(error);
   }
 });
 
-router.route("/login").post(async (req, res) => {
+router.route("/login").post(async (req, res, next) => {
   try {
     const { username, password } = req.body;
 
@@ -51,7 +51,9 @@ router.route("/login").post(async (req, res) => {
     } else {
       res.status(400).json({ message: "Неправильный логин или пароль" });
     }
-  } catch (error) {}
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.route("/auth").get(tokenChecker, async (req, res) => {
