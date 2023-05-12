@@ -4,13 +4,15 @@ import morgan from "morgan";
 import mongoose from "mongoose";
 
 export default function (app) {
-  mongoose.connect(
-    `mongodb+srv://admin:${process.env.PASSWORD}@cluster0.qovlf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  );
+  mongoose
+    .connect(
+      `mongodb+srv://admin:${process.env.PASSWORD}@cluster0.qovlf.mongodb.net/myFirstDatabase`, //@cluster0.qovlf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      }
+    )
+    .catch((err) => console.log(err));
   app.use(morgan("dev"));
 
   // Body POST запросов.
