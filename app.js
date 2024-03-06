@@ -19,7 +19,13 @@ app.use(cookieParser());
 app.use(cors());
 
 app.use((req, res, next) => {
+<<<<<<< HEAD
   res.header("Access-Control-Allow-Origin", "*"); //https://home-rent4.web.app
+=======
+  res.header("Access-Control-Allow-Origin", "*");
+  //  "https://home-rent4.web.app"
+
+>>>>>>> aeeb060daf3620bedcab3989c037b4e8496791dc
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"

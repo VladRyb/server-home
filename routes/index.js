@@ -17,6 +17,7 @@ router.route("/signup").post(async (req, res, next) => {
 
     if (checkUser) {
       res.status(400).json({ message: "Такой пользователь уже существует" });
+      return;
     }
 
     const user = new User({
@@ -49,7 +50,7 @@ router.route("/login").post(async (req, res, next) => {
         user: { login: user.username, id: user._id },
       });
     } else {
-      res.status(400).json({ message: "Неправильный логин или пароль" });
+      res.status(403).json({ message: "Неправильный логин или пароль" });
     }
   } catch (error) {
     next(error);
