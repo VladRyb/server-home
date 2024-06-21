@@ -6,16 +6,13 @@ import mongoose from "mongoose";
 export default function (app) {
   mongoose
     .connect(
-      `mongodb+srv://admin:${process.env.PASSWORD}@cluster0.qovlf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`, //@cluster0.qovlf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+      `mongodb+srv://admin:${process.env.PASSWORD}@cluster0.qovlf.mongodb.net/myFirstDatabase`, //@cluster0.qovlf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
       {
         useNewUrlParser: true,
         useUnifiedTopology: true,
       }
     )
     .catch((err) => console.log(err));
-  mongoose.set("useNewUrlParser", true);
-  mongoose.set("useFindAndModify", false);
-  mongoose.set("useCreateIndex", true);
   app.use(morgan("dev"));
 
   // Body POST запросов.
